@@ -3,6 +3,9 @@ package com.mukul.profile.controller;
 import com.mukul.profile.dto.User;
 import com.mukul.profile.exception.ProfileException;
 import com.mukul.profile.service.ProfileService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/profiles")
 public class ProfileController{
 
+    private Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private ProfileService profileService;
 
@@ -32,6 +36,7 @@ public class ProfileController{
     @GetMapping(value="/{key}")
     public ResponseEntity<User> getUser( @PathVariable String key,
         @RequestParam String keyType) throws ProfileException{
+        log.info("Request for {}",key);
         User user = profileService.getUser(key, keyType);
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
